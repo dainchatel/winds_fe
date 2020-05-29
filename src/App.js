@@ -49,6 +49,15 @@ function App() {
     const firstEmptyChapter = _.find(chapters, chapter => !chapter.text)
     return `${_.startCase(firstEmptyChapter.name)} will automatically unlock when the site hits ${firstEmptyChapter.necessary_views} visitors.`
   }
+  
+  const renderCurrentChapter = () => {
+    if (!currentChapter.text) {
+      return (<p>This chapter will unlock when the site hits {currentChapter.necessary_views} visitors.</p>)
+    } else {
+      const chapterParagraphs = _.split(currentChapter.text, '<d>')
+      return (<div>{chapterParagraphs.map(graph => <p className="graf" key={Math.floor(Math.random() * 1000)}>{graph}</p>)}</div>)
+    }
+  }
 
   const header = () => {
     if (currentChapter.name) {
@@ -75,7 +84,7 @@ function App() {
     } else if (currentChapter.name) {
       return (
         <main>
-          <p>{currentChapter.text ? currentChapter.text : `This chapter will unlock when the site hits ${currentChapter.necessary_views} visitors.`}</p>
+          {renderCurrentChapter()}
         </main>)
     } else {
       return (

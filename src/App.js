@@ -9,7 +9,7 @@ function App() {
   const [currentChapter = {}, setCurrentChapter] = useState({})
 
   useEffect(() => {
-    fetch("http://localhost:6578/chapter/available")
+    fetch(`${process.env.REACT_APP_BASE_URL}available`)
       .then(res => res.json())
       .then(
         (result) => {

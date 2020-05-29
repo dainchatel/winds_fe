@@ -16,7 +16,8 @@ function App() {
           setIsLoaded(true)
           const { message, chapters = [] } = result
           if (message) console.log(message)
-          setChapters(chapters)
+          const sortedChapters = _.sortBy(chapters, chapter => _.toNumber(chapter.number))
+          setChapters(sortedChapters)
         },
         (error) => {
           console.log(error)
@@ -40,14 +41,12 @@ function App() {
   
 
   const determineLastAvailableChapterMessage = () => {
-    const sortedChapters = _.sortBy(chapters, chapter => _.toNumber(chapter.number))
-    const lastHydratedChapter = _.findLast(sortedChapters, chapter => !!chapter.text)
+    const lastHydratedChapter = _.findLast(chapters, chapter => !!chapter.text)
     return `Right now, you can only read up to ${_.startCase(lastHydratedChapter.name)}.`
   }
   
   const determineFirstUnavailableChapterMessage = () => {
-    const sortedChapters = _.sortBy(chapters, chapter => _.toNumber(chapter.number))
-    const firstEmptyChapter = _.find(sortedChapters, chapter => !chapter.text)
+    const firstEmptyChapter = _.find(chapters, chapter => !chapter.text)
     return `${_.startCase(firstEmptyChapter.name)} will automatically unlock when the site hits ${firstEmptyChapter.necessary_views} visitors.`
   }
 
